@@ -1,5 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 639px)");
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return isMobile;
+}
+
 const CIUDADES = [
   { nombre: "Buenos Aires, Argentina",  lat: -34.6037, lon: -58.3816, tz: -3 },
   { nombre: "Cordoba, Argentina",       lat: -31.4201, lon: -64.1888, tz: -3 },
@@ -463,6 +474,8 @@ export default function App() {
   const [consultas, setConsultas] = useState([]);
   const [cargandoConsultas, setCargandoConsultas] = useState(false);
 
+  const isMobile = useIsMobile();
+
   const cargarConsultas = useCallback(async () => {
     setCargandoConsultas(true);
     try {
@@ -543,14 +556,14 @@ export default function App() {
 
   return (
     <div style={S.page}>
-      <header style={S.header}>
+      <header style={{ ...S.header, ...(isMobile ? { padding: "14px 16px" } : {}) }}>
         <span style={S.headerLogo}>&#10022; AstroChart</span>
         <span style={S.headerSub}>Carta Astral &amp; Zodiaco</span>
       </header>
 
-      <main style={S.layout}>
+      <main style={{ ...S.layout, ...(isMobile ? { gridTemplateColumns: "1fr", padding: "20px 16px" } : {}) }}>
         {/* Columna izquierda */}
-        <div style={S.leftPanel}>
+        <div style={{ ...S.leftPanel, ...(isMobile ? { padding: "0 0 24px 0", borderRight: "none", borderBottom: "1px solid rgba(255,255,255,0.06)" } : {}) }}>
           <div style={S.sectionTitle}>Datos de nacimiento</div>
 
           <label style={S.label}>Fecha</label>
@@ -614,7 +627,7 @@ export default function App() {
         </div>
 
         {/* Columna derecha */}
-        <div style={S.rightPanel}>
+        <div style={{ ...S.rightPanel, ...(isMobile ? { padding: "0" } : {}) }}>
           {/* Tabs */}
           <div style={S.tabRow}>
             <button style={S.tab(tab === "carta")} onClick={() => setTab("carta")}>
@@ -664,7 +677,7 @@ export default function App() {
                   </div>
 
                   <div style={{ ...S.chartLabel, marginTop: "20px" }}>Planetas personales</div>
-                  <div style={S.smallGrid}>
+                  <div style={{ ...S.smallGrid, ...(isMobile ? { gridTemplateColumns: "repeat(3, 1fr)" } : {}) }}>
                     {Object.entries(cartaAstral.planetas).map(([nombre, signo]) => (
                       <PlanetCard
                         key={nombre}
