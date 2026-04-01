@@ -67,6 +67,7 @@
     </ul>
   </li>
   <li>Recomendaciones para trabajar con IA</li>
+  <li>Configurar base de datos en la nube (Turso)</li>
   <li>Subir al repositorio y publicar</li>
   <li>Flujo de actualizaciones</li>
 </ol>
@@ -214,6 +215,11 @@
 No sobreingenierar: implementar solo lo que el caso de uso pide.</pre>
 <div class="tip">💡 Cuanto más precisa sea la descripción del caso de uso, mejores serán los resultados. Incluir: qué hace la app, qué datos maneja y qué debe mostrar al usuario.</div>
 
+<h3>Opción: usar Turso en lugar de SQLite <em>(agente)</em></h3>
+<p>El prompt base genera el prototipo con SQLite local. Si desde el inicio se quiere persistencia en la nube (recomendado si se va a publicar en Railway o Render), agregar esta instrucción al agente después de generar el prototipo:</p>
+<pre>migrá la persistencia de SQLite a Turso usando @libsql/client</pre>
+<p>El agente reemplaza el módulo de base de datos y adapta los servicios. Luego seguir los pasos de la <strong>sección 11</strong> para configurar las credenciales.</p>
+
 <hr>
 
 <h2>9. Definir features con el agente analista</h2>
@@ -302,7 +308,40 @@ Fuera de alcance
 
 <hr>
 
-<h2>11. Subir al repositorio y publicar</h2>
+<h2>11. Configurar base de datos en la nube (Turso)</h2>
+<p>Por defecto, el prototipo usa <strong>SQLite local</strong>, que funciona en la computadora pero se pierde con cada nuevo deploy en Railway o Render. Para tener persistencia real en producción, se usa <strong>Turso</strong>: una base de datos SQL en la nube compatible con SQLite, gratuita para prototipos.</p>
+
+<h3>Paso 1 — Crear cuenta y base de datos <em>(vos)</em></h3>
+<ol>
+  <li>Ir a <a href="https://turso.tech">https://turso.tech</a> → Sign up (se puede usar la cuenta de GitHub)</li>
+  <li>Click en <strong>Create Database</strong> → elegir un nombre y una región → click en <strong>Create</strong></li>
+  <li>Dentro de la base creada, ir a la pestaña <strong>Connect</strong></li>
+  <li>Copiar la <strong>Database URL</strong> (formato: <code>libsql://nombre-usuario.turso.io</code>)</li>
+  <li>Click en <strong>Generate Token</strong> → copiar el token</li>
+</ol>
+<div class="warn">⚠️ El token se muestra una sola vez. Guardarlo antes de cerrar la pantalla. No compartirlo por el chat.</div>
+
+<h3>Paso 2 — Configurar el proyecto <em>(agente)</em></h3>
+<p>Una vez que tenés la URL y el token, decile al agente:</p>
+<pre>configurame el .env de Turso. La URL es [pegar URL] y el token es [pegar token]</pre>
+<p>El agente crea el archivo <code>.env</code> con las variables correctas. Como el <code>.env</code> ya está en el <code>.gitignore</code>, no se sube a GitHub.</p>
+
+<h3>Paso 3 — Agregar las variables en Railway <em>(vos)</em></h3>
+<ol>
+  <li>Ir a Railway → proyecto → servicio → tab <strong>Variables</strong></li>
+  <li>Click en <strong>New Variable</strong> y agregar:
+    <ul>
+      <li><code>TURSO_URL</code> → la URL copiada de Turso (formato <code>libsql://...</code>)</li>
+      <li><code>TURSO_AUTH_TOKEN</code> → el token generado</li>
+    </ul>
+  </li>
+  <li>Click en <strong>Deploy</strong> — Railway redeploya con las nuevas variables</li>
+</ol>
+<div class="tip">💡 Con estas variables configuradas, la aplicación en producción guarda y lee datos de Turso igual que SQLite local, pero de forma persistente entre deploys.</div>
+
+<hr>
+
+<h2>12. Subir al repositorio y publicar</h2>
 
 <h3>Paso 1 — Crear repositorio en GitHub</h3>
 <ol>
@@ -350,7 +389,7 @@ git push -u origin main</pre>
 
 <hr>
 
-<h2>12. Flujo de actualizaciones</h2>
+<h2>13. Flujo de actualizaciones</h2>
 <p>Cada vez que se quiera modificar algo del prototipo y actualizar la URL pública, simplemente se le indica al agente de IA el cambio deseado en lenguaje natural:</p>
 <div class="tip">💡 Ejemplos: "cambiá el color del botón", "agregá un campo de teléfono", "el título dice X, cambialo por Y"</div>
 <p>El agente realiza los cambios en el código y sube todo al repositorio automáticamente. Railway o Render detectan el push y actualizan la URL pública en aproximadamente 3 minutos, sin intervención manual.</p>
