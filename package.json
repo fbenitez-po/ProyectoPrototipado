@@ -1,0 +1,11 @@
+{
+  "name": "carta-astral",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm ci --prefix src/backend && npm ci --prefix src/frontend && npm run build --prefix src/frontend",
+    "start": "node src/backend/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
