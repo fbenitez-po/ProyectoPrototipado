@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
 
 function useIsMobile() {
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 900);
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 639px)");
+    const mq = window.matchMedia("(max-width: 899px)");
     const handler = (e) => setIsMobile(e.matches);
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
@@ -44,6 +44,7 @@ const S = {
     color: "#e8e8f0",
     display: "flex",
     flexDirection: "column",
+    overflowX: "hidden",
   },
   header: {
     borderBottom: "1px solid rgba(255,255,255,0.07)",
