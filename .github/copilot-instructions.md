@@ -24,6 +24,13 @@ Aplicación web que permite a una persona ingresar su fecha, hora y lugar de nac
 
 Antes de implementar cualquier feature, leer la HU correspondiente en `.ai/stories/`.
 
+## Flujo de trabajo por defecto para nuevas features
+1. **Siempre empezar por `@analista`** — levanta el requerimiento y genera la HU
+2. El usuario revisa y aprueba la HU
+3. Solo después de la aprobación se invoca `@backend`, `@web-builder` o `@Prototipado Funcional`
+
+**No se escribe código sin HU aprobada.**
+
 ## Memoria del agente
 **Leer `.ai/memory.md` SIEMPRE antes de actuar**, especialmente cuando:
 - El usuario pide implementar, modificar o crear algo
