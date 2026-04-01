@@ -4,7 +4,7 @@ const { guardarCarta, listarCartas, obtenerCartaPorId, eliminarCarta } = require
 
 // POST /api/cartas — Guarda una carta con alias
 // Body: { alias, input, resultado }
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const { alias, input, resultado } = req.body;
 
   if (!alias || typeof alias !== "string" || alias.trim() === "") {
@@ -15,7 +15,7 @@ router.post("/", (req, res) => {
   }
 
   try {
-    const carta = guardarCarta(alias.trim(), input, resultado);
+    const carta = await guardarCarta(alias.trim(), input, resultado);
     return res.status(201).json(carta);
   } catch (err) {
     console.error("Error guardando carta:", err);
@@ -24,9 +24,9 @@ router.post("/", (req, res) => {
 });
 
 // GET /api/cartas — Lista todas las cartas (metadatos)
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   try {
-    return res.json(listarCartas());
+    return res.json(await listarCartas());
   } catch (err) {
     console.error("Error listando cartas:", err);
     return res.status(500).json({ error: "Error al obtener las cartas." });
@@ -34,13 +34,13 @@ router.get("/", (req, res) => {
 });
 
 // GET /api/cartas/:id — Recupera una carta completa
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);
   if (isNaN(id)) {
     return res.status(400).json({ error: "El ID debe ser un número entero." });
   }
 
-  const carta = obtenerCartaPorId(id);
+  const carta = await obtenerCartaPorId(id);
   if (!carta) {
     return res.status(404).json({ error: `No existe una carta con ID ${id}.` });
   }
@@ -48,13 +48,13 @@ router.get("/:id", (req, res) => {
 });
 
 // DELETE /api/cartas/:id — Elimina una carta
-router.delete("/:id", (req, res) => {
+router.delete("/:id", async (req, res) => {
   const id = parseInt(req.params.id, 10);
   if (isNaN(id)) {
     return res.status(400).json({ error: "El ID debe ser un número entero." });
   }
 
-  const eliminada = eliminarCarta(id);
+  const eliminada = await eliminarCarta(id);
   if (!eliminada) {
     return res.status(404).json({ error: `No existe una carta con ID ${id}.` });
   }

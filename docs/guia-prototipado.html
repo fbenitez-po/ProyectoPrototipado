@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    body { font-family: Arial, sans-serif; font-size: 11pt; color: #000; max-width: 800px; margin: 40px auto; line-height: 1.6; }
+    h1 { font-size: 20pt; font-weight: bold; margin-top: 32px; margin-bottom: 8px; }
+    h2 { font-size: 14pt; font-weight: bold; margin-top: 28px; margin-bottom: 6px; }
+    h3 { font-size: 12pt; font-weight: bold; margin-top: 20px; margin-bottom: 4px; }
+    p { margin: 8px 0; }
+    ul, ol { margin: 8px 0 8px 24px; }
+    li { margin-bottom: 4px; }
+    code, pre { font-family: 'Courier New', monospace; background: #f5f5f5; border: 1px solid #ddd; border-radius: 4px; }
+    code { padding: 1px 5px; font-size: 10pt; }
+    pre { padding: 12px 16px; font-size: 10pt; white-space: pre-wrap; margin: 10px 0; }
+    table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+    th { background: #f0f0f0; font-weight: bold; text-align: left; padding: 8px 12px; border: 1px solid #ccc; }
+    td { padding: 8px 12px; border: 1px solid #ccc; }
+    .tip { background: #fff8e1; border-left: 4px solid #f9a825; padding: 8px 12px; margin: 10px 0; border-radius: 2px; }
+    .warn { background: #fff3e0; border-left: 4px solid #ef6c00; padding: 8px 12px; margin: 10px 0; border-radius: 2px; }
+    hr { border: none; border-top: 1px solid #ccc; margin: 28px 0; }
+  </style>
+</head>
+<body>
+
+<h1>Prototipos funcionales con IA desde cero</h1>
+
+<h2>Introducción</h2>
+<p>En un contexto donde la inteligencia artificial permite acelerar significativamente el desarrollo de soluciones, surge la necesidad de contar con una guía clara que permita transformar una idea en un prototipo funcional en el menor tiempo posible.</p>
+<p>Este documento tiene como objetivo brindar un paso a paso simple y práctico para crear prototipos utilizando herramientas de IA, sin necesidad de una estructura técnica compleja ni conocimientos avanzados de desarrollo.</p>
+<p>Está orientado principalmente a perfiles como Product Owners, Analistas y Equipos de negocio que necesitan validar ideas, construir pruebas de concepto o generar primeras versiones funcionales para compartir con stakeholders.</p>
+<p>A lo largo de esta guía se recorrerán los pasos para:</p>
+<ul>
+  <li>Preparar el entorno de trabajo</li>
+  <li>Configurar herramientas clave</li>
+  <li>Utilizar inteligencia artificial dentro del flujo de desarrollo</li>
+  <li>Generar un prototipo full-stack funcional (frontend + backend)</li>
+  <li>Publicar y compartir una URL pública</li>
+</ul>
+<div class="tip">💡 La premisa principal es: pasar de una idea a algo funcional lo más rápido posible, utilizando la IA como acelerador del proceso.</div>
+
+<hr>
+
+<h2>Índice</h2>
+<ol>
+  <li>Crear cuenta de GitHub
+    <ul><li>1.1 Unirse a la organización en GitHub</li></ul>
+  </li>
+  <li>Instalar Visual Studio Code</li>
+  <li>Instalar extensiones recomendadas</li>
+  <li>Asociar GitHub con VS Code</li>
+  <li>Verificar acceso a GitHub Copilot</li>
+  <li>Instalar Node.js</li>
+  <li>Definir estructura del proyecto
+    <ul>
+      <li>7.1 ¿Un repositorio o dos?</li>
+      <li>7.2 Recomendación: monorepo</li>
+    </ul>
+  </li>
+  <li>Generar prototipo con IA</li>
+  <li>Definir features con el agente analista
+    <ul>
+      <li>9.1 ¿Qué es una Historia de Usuario (HU)?</li>
+      <li>9.2 Cómo invocar al analista</li>
+      <li>9.3 El flujo completo: idea → HU → código</li>
+      <li>9.4 Ejemplo de HU generada</li>
+    </ul>
+  </li>
+  <li>Recomendaciones para trabajar con IA</li>
+  <li>Subir al repositorio y publicar</li>
+  <li>Flujo de actualizaciones</li>
+</ol>
+
+<hr>
+
+<h2>1. Crear cuenta de GitHub</h2>
+<p>Antes de comenzar, es imprescindible contar con una cuenta de GitHub. GitHub no solo se utiliza para trabajar con repositorios, sino que también es el punto de acceso a herramientas de inteligencia artificial como GitHub Copilot. Sin una cuenta activa y correctamente configurada, no será posible utilizar IA dentro del entorno de desarrollo.</p>
+<p><strong>Pasos:</strong></p>
+<ol>
+  <li>Ingresar a https://github.com</li>
+  <li>Crear una cuenta con email corporativo</li>
+  <li>Verificar el email</li>
+  <li>Completar el perfil básico</li>
+</ol>
+<div class="tip">💡 Se debe utilizar una cuenta asociada a la organización si se requiere acceso a licencias de Copilot.</div>
+
+<h3>1.1 Unirse a la organización de la empresa en GitHub</h3>
+<p>Para poder utilizar correctamente las herramientas de la organización (incluyendo IA), es necesario formar parte de la organización en GitHub.</p>
+<p><strong>¿Qué necesito?</strong></p>
+<ul>
+  <li>Tu cuenta de GitHub creada</li>
+  <li>Una invitación del administrador (Tech Lead o DevOps)</li>
+</ul>
+<p><strong>Instrucciones:</strong></p>
+<ol>
+  <li>Enviarle a tu Tech Lead o DevOps tu username de GitHub</li>
+  <li>El administrador enviará una invitación por email</li>
+  <li>Abrir el email y hacer click en "Accept invitation"</li>
+  <li>Confirmar el acceso a la organización</li>
+  <li>Hacer click en "Join [nombre de la organización]"</li>
+</ol>
+
+<hr>
+
+<h2>2. Instalar Visual Studio Code</h2>
+<p>Visual Studio Code (VS Code) será el entorno principal de trabajo.</p>
+<p><strong>Pasos:</strong></p>
+<ol>
+  <li>Descargar VS Code desde https://code.visualstudio.com</li>
+  <li>Instalarlo</li>
+  <li>Abrir la aplicación</li>
+</ol>
+
+<hr>
+
+<h2>3. Instalar extensiones recomendadas</h2>
+<p>Dentro de VS Code, acceder al panel de extensiones (ícono de cuadrado con piezas).</p>
+<table>
+  <tr><th>Extensión</th><th>Función</th><th>ID</th></tr>
+  <tr><td>GitHub Copilot Chat</td><td>Interactuar con la IA</td><td>GitHub.copilot-chat</td></tr>
+  <tr><td>GitHub Pull Requests</td><td>Gestión de PRs</td><td>GitHub.vscode-pull-request-github</td></tr>
+  <tr><td>Prettier</td><td>Formateo automático</td><td>esbenp.prettier-vscode</td></tr>
+  <tr><td>Markdown Preview Enhanced</td><td>Visualización de .md</td><td>shd101wyy.markdown-preview-enhanced</td></tr>
+</table>
+<div class="tip">💡 Estas extensiones no son obligatorias en todos los casos, pero sí muy recomendables.</div>
+
+<hr>
+
+<h2>4. Asociar GitHub con VS Code</h2>
+<p>Iniciar sesión en GitHub desde VS Code para:</p>
+<ul>
+  <li>Usar Copilot</li>
+  <li>Acceder a repositorios</li>
+  <li>Sincronizar el entorno</li>
+</ul>
+
+<hr>
+
+<h2>5. Verificar acceso a GitHub Copilot</h2>
+<p><strong>Validación:</strong></p>
+<ol>
+  <li>Abrir Copilot Chat en VS Code</li>
+  <li>Confirmar que hay modelos disponibles</li>
+</ol>
+<div class="warn">⚠️ Asegurarse de utilizar los modelos seleccionados por la organización. Si no funciona, revisar permisos o licencia (ver paso 1.1).</div>
+
+<hr>
+
+<h2>6. Instalar Node.js</h2>
+<p>Node.js es necesario para ejecutar el prototipo localmente.</p>
+<p><strong>Pasos:</strong></p>
+<ol>
+  <li>Descargar Node.js desde https://nodejs.org (versión LTS)</li>
+  <li>Instalarlo</li>
+  <li>Verificar la instalación: abrir terminal y ejecutar <code>node -v</code></li>
+</ol>
+
+<hr>
+
+<h2>7. Definir estructura del proyecto</h2>
+
+<h3>7.1 ¿Un repositorio o dos?</h3>
+<p>Es una duda común al iniciar un prototipo. La decisión depende del tamaño del equipo y los objetivos del proyecto.</p>
+
+<h3>7.2 Recomendación: monorepo</h3>
+<p>Estructura sugerida:</p>
+<pre>/src
+  /backend
+  /frontend</pre>
+<p><strong>✔️ Ventajas:</strong></p>
+<ul>
+  <li>Más simple de gestionar</li>
+  <li>Más rápido de configurar</li>
+  <li>Ideal para prototipos y validaciones</li>
+</ul>
+<p><strong>⚠️ Cuándo separar en repos distintos:</strong></p>
+<ul>
+  <li>Equipos independientes que trabajan en paralelo</li>
+  <li>Deploys en infraestructuras separadas</li>
+  <li>Proyecto en crecimiento con necesidades distintas</li>
+</ul>
+<div class="tip">💡 Recomendación: mantener monorepo durante toda la etapa de prototipado.</div>
+
+<hr>
+
+<h2>8. Generar prototipo con IA</h2>
+<h3>Prompt base (copiar y reutilizar)</h3>
+<p>Este es el prompt completo que se le pasa al agente de IA para generar el prototipo. Solo es necesario completar la sección <strong>Caso de uso</strong>.</p>
+<pre>Quiero crear un prototipo funcional con backend y frontend dentro de un mismo repositorio.
+
+## Stack
+
+- Backend: Node.js + Express — puerto 3001
+- Frontend: React + Vite — puerto 5173
+- Persistencia: SQLite via better-sqlite3 (opcional según el caso de uso)
+- Código: en español (variables, comentarios, mensajes de error)
+
+## Caso de uso
+
+[DESCRIBIR AQUÍ qué hace la aplicación y cuál es el recurso principal]
+
+---
+
+## Qué necesito que generes
+
+1. Todos los archivos del backend con la estructura de capas completa
+2. Todos los archivos del frontend con proxy configurado y los tres estados de API
+3. Los archivos de contexto de IA (.ai/memory.md, .ai/context.md, .ai/conventions.md)
+4. Las instrucciones del agente (.github/copilot-instructions.md)
+5. Los 4 agentes en .github/agents/
+6. La primera HU correspondiente al caso de uso descrito
+7. Pasos para ejecutar el proyecto (instalar dependencias, arrancar backend y frontend)
+
+No sobreingenierar: implementar solo lo que el caso de uso pide.</pre>
+<div class="tip">💡 Cuanto más precisa sea la descripción del caso de uso, mejores serán los resultados. Incluir: qué hace la app, qué datos maneja y qué debe mostrar al usuario.</div>
+
+<hr>
+
+<h2>9. Definir features con el agente analista</h2>
+<p>Una vez que el prototipo base está generado, cada nueva funcionalidad sigue un proceso estructurado antes de escribir una sola línea de código. El responsable de ese proceso es el <strong>agente analista</strong>.</p>
+
+<h3>9.1 ¿Qué es una Historia de Usuario (HU)?</h3>
+<p>Una Historia de Usuario es un documento que describe con precisión qué debe hacer una feature, desde el punto de vista del usuario, antes de que alguien empiece a implementarla. Sirve como contrato entre quien pide la feature y quien la construye.</p>
+<p>Una buena HU responde estas preguntas:</p>
+<ul>
+  <li>¿Quién lo necesita y para qué?</li>
+  <li>¿Qué pasos sigue el usuario?</li>
+  <li>¿Qué datos entran y qué resultado se espera?</li>
+  <li>¿Qué pasa cuando algo sale mal?</li>
+  <li>¿Qué queda explícitamente fuera del alcance?</li>
+</ul>
+<div class="tip">💡 El objetivo es que cualquier desarrollador (o agente de IA) pueda implementar la feature sin necesidad de hacer preguntas adicionales.</div>
+
+<h3>9.2 Cómo invocar al analista</h3>
+<p>En el chat de VS Code, escribir <code>@analista</code> seguido de la idea en lenguaje natural:</p>
+<pre>@analista quiero agregar un formulario de contacto
+@analista necesito que los usuarios puedan exportar sus resultados en PDF
+@analista me gustaría tener un historial de consultas recientes</pre>
+<p>No hace falta dar detalles técnicos. El agente hace las preguntas necesarias en rondas progresivas:</p>
+<ol>
+  <li><strong>Ronda 1</strong> — Entender el valor: qué necesita el usuario y por qué</li>
+  <li><strong>Ronda 2</strong> — Entender el flujo: paso a paso, datos de entrada y resultado esperado</li>
+  <li><strong>Ronda 3</strong> — Casos borde: errores, validaciones y restricciones</li>
+  <li><strong>Ronda 4</strong> — UI/UX: dónde aparece, estados de carga y error</li>
+</ol>
+<div class="warn">⚠️ El agente nunca genera código. Su único output es la HU. Tampoco avanza sin aprobación explícita del usuario.</div>
+
+<h3>9.3 El flujo completo: idea → HU → código</h3>
+<table>
+  <tr><th>Paso</th><th>Quién actúa</th><th>Qué ocurre</th></tr>
+  <tr><td>1. Idea</td><td>Usuario</td><td>Describe la feature en lenguaje natural a <code>@analista</code></td></tr>
+  <tr><td>2. Entrevista</td><td>@analista</td><td>Hace preguntas en rondas para entender el requerimiento</td></tr>
+  <tr><td>3. HU generada</td><td>@analista</td><td>Presenta la HU completa y pide aprobación</td></tr>
+  <tr><td>4. Revisión</td><td>Usuario</td><td>Aprueba o pide ajustes. Se itera hasta que quede ok</td></tr>
+  <tr><td>5. Aprobación</td><td>Usuario</td><td>Confirma con "aprobado", "dale" o "sí"</td></tr>
+  <tr><td>6. HU guardada</td><td>@analista</td><td>Guarda el archivo en <code>.ai/stories/</code> e indica cómo implementar</td></tr>
+  <tr><td>7. Implementación</td><td>@backend / @web-builder</td><td>Leen la HU aprobada y generan el código</td></tr>
+</table>
+
+<h3>9.4 Ejemplo de HU generada</h3>
+<p>Una HU generada por el analista tiene esta estructura:</p>
+<pre>HU-007 — Exportar carta astral como imagen
+
+Historia de usuario
+Como usuario que generó su carta astral,
+quiero poder descargarla como imagen PNG,
+para compartirla fácilmente en redes sociales.
+
+Flujo principal
+1. El usuario visualiza su carta astral generada
+2. Hace click en el botón "Descargar"
+3. El sistema genera una imagen con los datos de la carta
+4. El navegador descarga automáticamente el archivo PNG
+
+Criterios de aceptación
+Backend
+- [ ] Endpoint POST /api/cartas/:id/imagen que devuelve la imagen en base64
+Frontend
+- [ ] Botón "Descargar" visible solo cuando hay carta generada
+- [ ] Estado de carga mientras se genera la imagen
+- [ ] Si falla, mostrar mensaje de error claro
+
+Casos borde
+- Sin carta generada → botón oculto o deshabilitado
+- Error en servidor → mensaje "No se pudo generar la imagen"
+
+Fuera de alcance
+- No incluye compartir directo a redes (solo descarga local)</pre>
+<div class="tip">💡 Esta precisión es lo que permite que el agente de IA implemente la feature correctamente de primera, sin ir y volver con preguntas.</div>
+
+<hr>
+
+<h2>10. Recomendaciones para trabajar con IA</h2>
+<ul>
+  <li>✔️ <strong>Pedir soluciones simples</strong> — evitar pedir todo de una vez</li>
+  <li>✔️ <strong>Iterar rápido</strong> — construir de a partes pequeñas y verificar</li>
+  <li>✔️ <strong>Validar cada parte</strong> — no asumir que el código funciona sin probarlo</li>
+  <li>✔️ <strong>Evitar complejidad innecesaria</strong> — la IA tiende a sugerir más de lo necesario</li>
+  <li>✔️ <strong>Dar contexto claro</strong> — cuanto mejor sea el prompt, mejor el resultado</li>
+</ul>
+<div class="tip">💡 La IA acelera, pero el criterio sigue siendo humano.</div>
+
+<hr>
+
+<h2>11. Subir al repositorio y publicar</h2>
+
+<h3>Paso 1 — Crear repositorio en GitHub</h3>
+<ol>
+  <li>Ir a https://github.com/new</li>
+  <li>Ingresar un nombre para el repositorio</li>
+  <li>Dejarlo vacío (sin README)</li>
+  <li>Click en "Create repository"</li>
+</ol>
+
+<h3>Paso 2 — Subir el código</h3>
+<p>El agente de IA puede ejecutar estos comandos directamente. Solo hace falta indicarle la URL del repositorio recién creado:</p>
+<pre>git init
+git add .
+git commit -m "initial commit"
+git remote add origin https://github.com/[usuario]/[repositorio].git
+git branch -M main
+git push -u origin main</pre>
+
+<h3>Paso 3 — Publicar con Railway</h3>
+<p><strong>Railway</strong> es una plataforma de hosting en la nube que despliega aplicaciones Node.js con configuración mínima y genera una URL pública.</p>
+<ol>
+  <li>Ir a https://railway.app → Login with GitHub</li>
+  <li>Click en <strong>New Project → Deploy from GitHub repo</strong></li>
+  <li>Si el repositorio no aparece, click en el engranaje <strong>Configure GitHub App</strong>:
+    <ul>
+      <li>En "Repository access" elegir "Only select repositories"</li>
+      <li>Buscar y seleccionar el repositorio → Click en "Save"</li>
+      <li>Volver a Railway y click en "Refresh"</li>
+    </ul>
+  </li>
+  <li>Seleccionar el repositorio</li>
+  <li>En la pestaña <strong>Variables</strong>, agregar: <code>NODE_ENV</code> = <code>production</code></li>
+  <li>Esperar el primer deploy (~3-4 minutos). Ver progreso en la pestaña <strong>Deployments</strong></li>
+  <li>Ir a <strong>Settings → Networking → Generate Domain</strong> para obtener la URL pública</li>
+</ol>
+
+<h3>Alternativa: Render</h3>
+<ol>
+  <li>Ir a https://render.com → New → Web Service</li>
+  <li>Conectar GitHub y seleccionar el repositorio</li>
+  <li>Configurar: Build Command: <code>npm run build</code> / Start Command: <code>npm start</code></li>
+  <li>Click en <strong>Create Web Service</strong> → esperar deploy → copiar URL</li>
+</ol>
+<div class="warn">⚠️ El plan gratuito de Render "duerme" el servidor tras 15 minutos sin tráfico (la primera solicitud tarda ~30 segundos). Railway no tiene ese comportamiento pero tiene un límite de crédito mensual.</div>
+
+<hr>
+
+<h2>12. Flujo de actualizaciones</h2>
+<p>Cada vez que se quiera modificar algo del prototipo y actualizar la URL pública, simplemente se le indica al agente de IA el cambio deseado en lenguaje natural:</p>
+<div class="tip">💡 Ejemplos: "cambiá el color del botón", "agregá un campo de teléfono", "el título dice X, cambialo por Y"</div>
+<p>El agente realiza los cambios en el código y sube todo al repositorio automáticamente. Railway o Render detectan el push y actualizan la URL pública en aproximadamente 3 minutos, sin intervención manual.</p>
+
+<hr>
+
+<h2>Cierre</h2>
+<p>El objetivo de esta guía es permitir pasar de una idea a un prototipo funcional en el menor tiempo posible, con el menor esfuerzo de configuración.</p>
+<p>Este enfoque permite:</p>
+<ul>
+  <li>Validar ideas rápidamente con stakeholders reales</li>
+  <li>Mostrar avances concretos antes de comprometer recursos</li>
+  <li>Iterar con bajo costo técnico y organizacional</li>
+</ul>
+
+</body>
+</html>

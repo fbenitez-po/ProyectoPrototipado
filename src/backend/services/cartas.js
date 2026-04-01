@@ -1,44 +1,32 @@
 const db = require("../data/db");
 
-/**
- * Guarda una carta astral con un alias.
- * @param {string} alias    - Nombre elegido por el usuario
- * @param {object} input    - Parámetros originales de entrada
- * @param {object} resultado - Resultado calculado (sol, luna, ascendente, planetas, descripcion)
- * @returns {object} carta insertada con su id
- */
-function guardarCarta(alias, input, resultado) {
-  const stmt = db.prepare(
-    "INSERT INTO cartas (alias, input, resultado) VALUES (?, ?, ?)"
+async function guardarCarta(alias, input, resultado) {
+  const result = await db.execute({
+    sql:  "INSERT INTO cartas (alias, input, resultado) VALUES (?, ?, ?)",
+    args: [alias, JSON.stringify(input), JSON.stringify(resultado)],
+  });
+  return obtenerCartaPorId(Number(result.lastInsertRowid));
+}
+
+async function listarCartas() {
+  const result = await db.execute(
+    "SELECT id, alias, input, resultado, created_at FROM cartas ORDER BY created_at DESC"
   );
-  const info = stmt.run(alias, JSON.stringify(input), JSON.stringify(resultado));
-  return obtenerCartaPorId(info.lastInsertRowid);
+  return result.rows.map((row) => ({
+    id:         row.id,
+    alias:      row.alias,
+    created_at: row.created_at,
+    input:      JSON.parse(row.input),
+    resultado:  JSON.parse(row.resultado),
+  }));
 }
 
-/**
- * Devuelve todas las cartas guardadas (solo metadatos, sin el resultado completo).
- * @returns {Array}
- */
-function listarCartas() {
-  return db
-    .prepare("SELECT id, alias, input, resultado, created_at FROM cartas ORDER BY created_at DESC")
-    .all()
-    .map((row) => ({
-      id:         row.id,
-      alias:      row.alias,
-      created_at: row.created_at,
-      input:      JSON.parse(row.input),
-      resultado:  JSON.parse(row.resultado),
-    }));
-}
-
-/**
- * Devuelve una carta completa por ID.
- * @param {number} id
- * @returns {object|null}
- */
-function obtenerCartaPorId(id) {
-  const row = db.prepare("SELECT * FROM cartas WHERE id = ?").get(id);
+async function obtenerCartaPorId(id) {
+  const result = await db.execute({
+    sql:  "SELECT * FROM cartas WHERE id = ?",
+    args: [id],
+  });
+  const row = result.rows[0];
   if (!row) return null;
   return {
     id:         row.id,
@@ -49,14 +37,12 @@ function obtenerCartaPorId(id) {
   };
 }
 
-/**
- * Elimina una carta por ID.
- * @param {number} id
- * @returns {boolean} true si se eliminó, false si no existía
- */
-function eliminarCarta(id) {
-  const info = db.prepare("DELETE FROM cartas WHERE id = ?").run(id);
-  return info.changes > 0;
+async function eliminarCarta(id) {
+  const result = await db.execute({
+    sql:  "DELETE FROM cartas WHERE id = ?",
+    args: [id],
+  });
+  return result.rowsAffected > 0;
 }
 
 module.exports = { guardarCarta, listarCartas, obtenerCartaPorId, eliminarCarta };
