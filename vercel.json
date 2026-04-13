@@ -1,8 +1,6 @@
 {
-  "buildCommand": null,
+  "buildCommand": "cp docs/guia-prototipado.html docs/index.html",
   "installCommand": null,
   "outputDirectory": "docs",
-  "rewrites": [
-    { "source": "/", "destination": "/guia-prototipado.html" }
-  ]
+  "framework": null
 }
